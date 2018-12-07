@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class SubCategoryTable(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val categoryID: Int,
-    val sub: String
+    var id: Int = 0,
+    var categoryID: Int = 0,
+    var sub: String = ""
 )

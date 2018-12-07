@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.iamsdt.hs1.db.Repository
-import com.iamsdt.hs1.db.table.CategoryTable
 import com.iamsdt.hs1.db.table.SubCategoryTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
 import com.iamsdt.hs1.ui.main.MainVM
@@ -21,11 +20,11 @@ class SubVM(private val repository: Repository) : ViewModel() {
 
     val dialogStatus = SingleLiveEvent<EventMessage>()
 
-    fun add(txt: String) {
+    fun add(txt: String, catID: Int) {
         //todo add firestore
         ioThread {
-            val cat = CategoryTable(cat = txt)
-            val int = repository.addCat(cat)
+            val cat = SubCategoryTable(sub = txt, categoryID = catID)
+            val int = repository.addSubCat(cat)
 
             if (int > 0) {
                 dialogStatus.postValue(EventMessage("Inserted Successfully", 1))

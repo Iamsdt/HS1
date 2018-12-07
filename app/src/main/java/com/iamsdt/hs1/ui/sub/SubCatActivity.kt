@@ -91,7 +91,7 @@ class SubCatActivity : BaseActivity() {
             if (txt.isEmpty() || txt.length <= 3) {
                 et.error = "Please input correctly"
             } else {
-                vm.add(txt)
+                vm.add(txt,catID)
             }
         }
 
