@@ -1,17 +1,16 @@
 package com.iamsdt.hs1.di
 
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.iamsdt.hs1.db.MyDatabase
 import com.iamsdt.hs1.db.Repository
+import com.iamsdt.hs1.db.dao.CategoryDao
+import com.iamsdt.hs1.db.dao.MyTableDao
+import com.iamsdt.hs1.db.dao.SubCategoryDao
 import com.iamsdt.hs1.ui.main.MainAdapter
 import com.iamsdt.hs1.ui.main.MainVM
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
-import kotlin.math.sin
 
 val dbModule = module {
 
@@ -21,7 +20,7 @@ val dbModule = module {
 
     single {
         Room.databaseBuilder(
-            androidApplication(),
+            androidContext(),
             MyDatabase::class.java, "MyDatabase"
         )
             .enableMultiInstanceInvalidation()
@@ -31,12 +30,18 @@ val dbModule = module {
 
 val repoModule = module {
     single {
-        Repository(get(), get(), get())
+        Repository(
+            get() as MyTableDao,
+            get() as SubCategoryDao,
+            get() as CategoryDao
+        )
     }
 }
 
 val adapterMOdule = module {
-    MainAdapter(get(), androidContext())
+    single {
+        MainAdapter(get(), androidContext())
+    }
 }
 
 val vm = module {

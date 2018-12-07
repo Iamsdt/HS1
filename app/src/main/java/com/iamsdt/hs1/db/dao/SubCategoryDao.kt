@@ -12,10 +12,10 @@ interface SubCategoryDao {
     fun add(myTable: SubCategoryTable): Long
 
     @Update
-    fun update(myTable: SubCategoryTable): Long
+    fun update(myTable: SubCategoryTable): Int
 
     @Delete
-    fun delete(myTable: SubCategoryTable): Long
+    fun delete(myTable: SubCategoryTable): Int
 
     @Query("Select sub From SubCategoryTable")
     fun getAllSubcategories(): DataSource.Factory<Int, String>

@@ -17,10 +17,10 @@ interface MyTableDao {
     fun add(myTable: MyTable): Long
 
     @Update
-    fun update(myTable: MyTable): Long
+    fun update(myTable: MyTable): Int
 
     @Delete
-    fun delete(myTable: MyTable): Long
+    fun delete(myTable: MyTable): Int
 
     @Query("Select * From MyTable where category = :cat")
     fun getCategory(cat: String): DataSource.Factory<Int, MyTable>
@@ -28,7 +28,7 @@ interface MyTableDao {
     @Query("Select * From MyTable where subCategory = :cat")
     fun getSubCategory(cat: String): DataSource.Factory<Int, MyTable>
 
-    @Query("Select * From MyTable where category = :cat && subCategory =:sub")
+    @Query("Select * From MyTable where category = :cat AND subCategory =:sub")
     fun getCategorySubCategory(cat: String, sub: String): DataSource.Factory<Int, MyTable>
 
     @Query("Select * From MyTable")

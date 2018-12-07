@@ -12,10 +12,10 @@ interface CategoryDao {
     fun add(myTable: CategoryTable): Long
 
     @Update
-    fun update(myTable: CategoryTable): Long
+    fun update(myTable: CategoryTable): Int
 
     @Delete
-    fun delete(myTable: CategoryTable): Long
+    fun delete(myTable: CategoryTable): Int
 
     @Query("Select cat From CategoryTable")
     fun getAllCategories(): DataSource.Factory<Int, String>
