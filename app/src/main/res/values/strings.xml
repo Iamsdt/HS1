@@ -7,4 +7,11 @@
     <string name="add">Add</string>
     <string name="add_categories">Add Categories</string>
     <string name="add_subcategory">Add Subcategory</string>
+    <string name="title_activity_add">AddActivity</string>
+    <string name="title_activity_insert">InsertActivity</string>
+    <string name="post">Post</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="enter_type_here">Enter type here</string>
+    <string name="enter_link_here_if_any">Enter link here if Any</string>
+    <string name="pick_image">Pick Image</string>
 </resources>

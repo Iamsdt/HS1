@@ -8,7 +8,9 @@ package com.iamsdt.hs1.ui.sub
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iamsdt.hs1.R
@@ -16,14 +18,13 @@ import com.iamsdt.hs1.ext.ToastType
 import com.iamsdt.hs1.ext.gone
 import com.iamsdt.hs1.ext.show
 import com.iamsdt.hs1.ext.showToast
-import com.iamsdt.hs1.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_sub_cat.*
 import kotlinx.android.synthetic.main.content_sub_cat.*
 import kotlinx.android.synthetic.main.dialog_cat.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SubCatActivity : BaseActivity() {
+class SubCatActivity : AppCompatActivity() {
 
     private val vm: SubVM by viewModel()
 
@@ -66,7 +67,7 @@ class SubCatActivity : BaseActivity() {
             showDialog()
         }
 
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun emptyView() {
@@ -91,7 +92,7 @@ class SubCatActivity : BaseActivity() {
             if (txt.isEmpty() || txt.length <= 3) {
                 et.error = "Please input correctly"
             } else {
-                vm.add(txt,catID)
+                vm.add(txt, catID)
             }
         }
 
@@ -100,4 +101,12 @@ class SubCatActivity : BaseActivity() {
         dialog.show()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }

@@ -6,6 +6,7 @@ import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.dao.CategoryDao
 import com.iamsdt.hs1.db.dao.MyTableDao
 import com.iamsdt.hs1.db.dao.SubCategoryDao
+import com.iamsdt.hs1.ui.add.InsertVm
 import com.iamsdt.hs1.ui.main.MainAdapter
 import com.iamsdt.hs1.ui.main.MainVM
 import com.iamsdt.hs1.ui.sub.SubAdapter
@@ -53,4 +54,5 @@ val adapterMOdule = module {
 val vm = module {
     viewModel { MainVM(get()) }
     viewModel { SubVM(get()) }
+    viewModel { InsertVm(get()) }
 }

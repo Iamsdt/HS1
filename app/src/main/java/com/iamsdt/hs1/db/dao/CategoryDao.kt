@@ -25,4 +25,7 @@ interface CategoryDao {
 
     @Query("Select * From CategoryTable")
     fun getAllData(): DataSource.Factory<Int, CategoryTable>
+
+    @Query("Select * From CategoryTable where id = :id")
+    fun getCat(id: Int): CategoryTable
 }

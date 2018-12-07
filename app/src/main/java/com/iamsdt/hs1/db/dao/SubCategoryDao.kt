@@ -26,4 +26,7 @@ interface SubCategoryDao {
     @Query("Select * From SubCategoryTable")
     fun getAllData(): DataSource.Factory<Int, SubCategoryTable>
 
+    @Query("Select * From SubCategoryTable where id= :id")
+    fun getSubCat(id: Int): SubCategoryTable
+
 }
