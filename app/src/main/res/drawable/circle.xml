@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Shudipto Trafder
+  ~ Created on 12/7/18 1:12 PM.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+
+    <solid android:color="@color/colorAccent"/>
+
+</shape>
