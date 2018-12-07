@@ -28,6 +28,7 @@ class Repository(
     fun deleteMyTable(myTable: MyTable) = myTableDao.delete(myTable)
 
     fun getCatCount(id: Int) = myTableDao.getCatIDs(id)
+    fun getSubcatCount(id: Int) = myTableDao.getSubcatIDs(id)
 
 
     fun addCat(cat: CategoryTable) = categoryDao.add(cat)

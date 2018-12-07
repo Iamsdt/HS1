@@ -30,9 +30,9 @@ class SubCatActivity : AppCompatActivity() {
 
     private val adapter: SubAdapter by inject()
 
-    lateinit var dialog: AlertDialog
+    private lateinit var dialog: AlertDialog
 
-    var catID = 0
+    private var catID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +41,12 @@ class SubCatActivity : AppCompatActivity() {
 
         catID = intent.getIntExtra(Intent.EXTRA_TEXT, 0)
 
-
         detailsRcv.layoutManager = LinearLayoutManager(this)
         detailsRcv.adapter = adapter
 
         vm.getAllCategory().observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
+                regularView()
                 adapter.submitList(it)
             } else {
                 emptyView()
@@ -73,6 +73,11 @@ class SubCatActivity : AppCompatActivity() {
     private fun emptyView() {
         empty.show()
         regular.gone()
+    }
+
+    private fun regularView() {
+        empty.gone()
+        regular.show()
     }
 
     private fun showDialog() {

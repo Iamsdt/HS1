@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.SubCategoryTable
+import com.iamsdt.hs1.ui.add.InsertActivity
 import com.iamsdt.hs1.utils.ioThread
 import kotlinx.android.synthetic.main.categorylist.view.*
 
@@ -42,7 +43,7 @@ class SubAdapter(
         model?.let {
             holder.bind(it)
             holder.itemView.setOnClickListener {
-                val intent = Intent(context, SubCatActivity::class.java)
+                val intent = Intent(context, InsertActivity::class.java)
                 intent.putExtra(Intent.EXTRA_TEXT, model.id)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
@@ -80,7 +81,7 @@ class SubAdapter(
 
     fun setTextCount(tv: TextView, id: Int) {
         ioThread {
-            val li = repository.getCatCount(id)
+            val li = repository.getSubcatCount(id)
             Handler(Looper.getMainLooper()).post {
                 tv.text = (li.size).toString()
             }

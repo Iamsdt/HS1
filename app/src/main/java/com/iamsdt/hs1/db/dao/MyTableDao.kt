@@ -45,4 +45,7 @@ interface MyTableDao {
 
     @Query("Select id From MyTable where categoryID = :id")
     fun getCatIDs(id: Int): List<Int>
+
+    @Query("Select id From MyTable where subCategoryID = :id")
+    fun getSubcatIDs(id: Int): List<Int>
 }

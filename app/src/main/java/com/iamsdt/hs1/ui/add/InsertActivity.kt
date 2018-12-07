@@ -5,6 +5,7 @@
 
 package com.iamsdt.hs1.ui.add
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,8 @@ class InsertActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insert)
         setSupportActionBar(toolbar)
+
+        subId = intent.getIntExtra(Intent.EXTRA_TEXT, 0)
 
         vm.status.observe(this, Observer {
             it?.let { m ->
