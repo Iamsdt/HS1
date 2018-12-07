@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
         dialog.show()
     }
 }
