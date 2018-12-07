@@ -7,7 +7,6 @@ package com.iamsdt.hs1.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -21,6 +20,7 @@ import com.iamsdt.hs1.R
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.CategoryTable
 import com.iamsdt.hs1.ui.sub.SubCatActivity
+import com.iamsdt.hs1.utils.ioThread
 import kotlinx.android.synthetic.main.categorylist.view.*
 
 class MainAdapter(
@@ -80,7 +80,7 @@ class MainAdapter(
     }
 
     fun setTextCount(tv: TextView, id: Int) {
-        AsyncTask.execute {
+        ioThread {
             val li = repository.getCatCount(id)
             Handler(Looper.getMainLooper()).post {
                 tv.text = (li.size).toString()
