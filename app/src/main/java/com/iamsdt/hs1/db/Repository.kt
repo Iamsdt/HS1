@@ -36,6 +36,7 @@ class Repository(
     fun deleteSubCat(sub: SubCategoryTable) = subCategoryDao.add(sub)
 
     fun getAllCategory() = categoryDao.getAllData()
+    fun getAllSubcategory() = subCategoryDao.getAllData()
 
     fun getCatCount(id: Int) = myTableDao.getCatIDs(id)
 }

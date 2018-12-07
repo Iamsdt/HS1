@@ -9,6 +9,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:id="@+id/detailsLay"
         android:layout_height="match_parent"
         tools:context=".ui.sub.SubCatActivity">
 
@@ -26,7 +27,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_sub_cat"/>
+    <include
+            android:id="@+id/regular"
+            layout="@layout/content_sub_cat"/>
+
+    <include
+            android:id="@+id/empty"
+            android:visibility="gone"
+            layout="@layout/main_empty_view"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

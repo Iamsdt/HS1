@@ -8,6 +8,8 @@ import com.iamsdt.hs1.db.dao.MyTableDao
 import com.iamsdt.hs1.db.dao.SubCategoryDao
 import com.iamsdt.hs1.ui.main.MainAdapter
 import com.iamsdt.hs1.ui.main.MainVM
+import com.iamsdt.hs1.ui.sub.SubAdapter
+import com.iamsdt.hs1.ui.sub.SubVM
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -42,8 +44,13 @@ val adapterMOdule = module {
     single {
         MainAdapter(get(), androidContext())
     }
+
+    single {
+        SubAdapter(get(), androidContext())
+    }
 }
 
 val vm = module {
     viewModel { MainVM(get()) }
+    viewModel { SubVM(get()) }
 }
