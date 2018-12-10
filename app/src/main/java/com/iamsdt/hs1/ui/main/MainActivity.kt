@@ -61,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        Thread.sleep(5000)
+
         fab.setOnClickListener {
             showDialog()
         }
