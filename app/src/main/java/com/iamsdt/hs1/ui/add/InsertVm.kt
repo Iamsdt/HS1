@@ -6,11 +6,14 @@
 package com.iamsdt.hs1.ui.add
 
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
+import com.iamsdt.hs1.utils.MainDB
 import com.iamsdt.hs1.utils.ioThread
 import com.iamsdt.hs1.utils.model.EventMessage
+import timber.log.Timber
 
 class InsertVm(private val repository: Repository) : ViewModel() {
 
@@ -22,10 +25,15 @@ class InsertVm(private val repository: Repository) : ViewModel() {
             val cat = repository.getCat(sub.categoryID)
 
             val table = MyTable(
-                0, title, type, link, img, cat.cat, cat.id, sub.sub, subID
+                    0, title, type, link, img, cat.cat, cat.id, sub.sub, subID
             )
 
-            // TODO: 12/7/18 add to firestore
+            val ref = FirebaseFirestore.getInstance().collection(MainDB.NAME)
+
+            ref.add(table).addOnCompleteListener {
+                if (it.isSuccessful) Timber.i("Data insert uploaded")
+                else Timber.i("Data insert failed")
+            }
 
             val insert = repository.addMyTable(table)
             if (insert > 0) {

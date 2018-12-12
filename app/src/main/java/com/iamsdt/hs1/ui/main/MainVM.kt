@@ -9,11 +9,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.CategoryTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
+import com.iamsdt.hs1.utils.CatDB
 import com.iamsdt.hs1.utils.ioThread
 import com.iamsdt.hs1.utils.model.EventMessage
+import timber.log.Timber
 
 class MainVM(private val repository: Repository) : ViewModel() {
 
@@ -27,9 +30,17 @@ class MainVM(private val repository: Repository) : ViewModel() {
     }
 
     fun add(txt: String) {
-        //todo add firestore
+
+        val cat = CategoryTable(cat = txt)
+
+        val ref = FirebaseFirestore.getInstance().collection(CatDB.NAME)
+
+        ref.add(cat).addOnCompleteListener {
+            if (it.isSuccessful) Timber.i("category uploaded")
+            else Timber.i("category failed")
+        }
+
         ioThread {
-            val cat = CategoryTable(cat = txt)
             val int = repository.addCat(cat)
 
             if (int > 0) {
@@ -42,10 +53,10 @@ class MainVM(private val repository: Repository) : ViewModel() {
     companion object {
 
         val PAGE_CONFIG: PagedList.Config = PagedList.Config.Builder()
-            .setPageSize(30)
-            .setInitialLoadSizeHint(50)//by default page size * 3
-            .setPrefetchDistance(20) // default page size
-            .setEnablePlaceholders(true) //default true
-            .build()
+                .setPageSize(30)
+                .setInitialLoadSizeHint(50)//by default page size * 3
+                .setPrefetchDistance(20) // default page size
+                .setEnablePlaceholders(true) //default true
+                .build()
     }
 }

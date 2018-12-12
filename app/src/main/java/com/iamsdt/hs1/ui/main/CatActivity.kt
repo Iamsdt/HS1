@@ -1,30 +1,31 @@
-/*
- * Copyright (c) Shudipto Trafder
- * Created on 12/7/18 12:57 PM.
- */
-
 package com.iamsdt.hs1.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import com.iamsdt.hs1.R
-import com.iamsdt.hs1.ext.ToastType
-import com.iamsdt.hs1.ext.gone
-import com.iamsdt.hs1.ext.show
-import com.iamsdt.hs1.ext.showToast
-import kotlinx.android.synthetic.main.activity_main.*
+import com.iamsdt.hs1.ext.*
+import com.iamsdt.hs1.ui.sub.SubCatActivity
+import kotlinx.android.synthetic.main.activity_cat.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.dialog_cat.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class CatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
 
     private val vm: MainVM by viewModel()
 
@@ -32,10 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var dialog: AlertDialog
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setContentView(R.layout.activity_cat)
+        setSupportActionBar(main_toolbar)
+
 
         mainRcv.layoutManager = LinearLayoutManager(this)
 
@@ -61,11 +64,27 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        Thread.sleep(5000)
-
         fab.setOnClickListener {
             showDialog()
         }
+
+        val toggle = object : ActionBarDrawerToggle(
+                this, drawer_layout, main_toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close) {
+
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE)
+                        as InputMethodManager
+
+                manager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+            }
+        }
+
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
     private fun regularView() {
@@ -78,26 +97,10 @@ class MainActivity : AppCompatActivity() {
         empty.show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun showDialog() {
 
         val view = LayoutInflater.from(this)
-            .inflate(R.layout.dialog_cat, mainLay, false)
+                .inflate(R.layout.dialog_cat, mainLay, false)
 
         val builder = AlertDialog.Builder(this)
         builder.setView(view)
@@ -118,5 +121,25 @@ class MainActivity : AppCompatActivity() {
         dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
+    }
+
+    override fun onBackPressed() {
+        when {
+            drawer_layout.isDrawerOpen(GravityCompat.START) -> drawer_layout.closeDrawer(GravityCompat.START)
+            fab.isGone -> {
+                fab.show()
+            }
+            else -> super.onBackPressed()
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_subcat -> toNextActivity(SubCatActivity::class)
+        }
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 }

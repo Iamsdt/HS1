@@ -1,5 +1,6 @@
 package com.iamsdt.hs1.ext
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,10 @@ import androidx.fragment.app.Fragment
 import com.iamsdt.hs1.R
 
 import kotlin.reflect.KClass
+import android.net.NetworkInfo
+import android.content.Context.CONNECTIVITY_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.net.ConnectivityManager
 
 
 fun AppCompatActivity.runThread(timer: Long, clazz: KClass<out AppCompatActivity>) =
@@ -75,6 +80,16 @@ fun AppCompatActivity.sendEmail(
     intent.data = Uri.parse("mailto:$email")
     intent.putExtra(Intent.EXTRA_SUBJECT, subject)
     startActivity(Intent.createChooser(intent, "Send Email"))
+}
+
+fun AppCompatActivity.isNetWorkAvailable(): Boolean {
+    val manager = getSystemService(
+            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val info: NetworkInfo? = manager.activeNetworkInfo
+
+
+    return info != null && info.isConnected
 }
 
 
