@@ -13,11 +13,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.iamsdt.hs1.R
-import com.iamsdt.hs1.ext.ToastType
-import com.iamsdt.hs1.ext.gone
-import com.iamsdt.hs1.ext.show
-import com.iamsdt.hs1.ext.showToast
+import com.iamsdt.hs1.ext.*
+import com.iamsdt.hs1.ui.SigninActivity
 import kotlinx.android.synthetic.main.activity_sub_cat.*
 import kotlinx.android.synthetic.main.content_sub_cat.*
 import kotlinx.android.synthetic.main.dialog_cat.view.*
@@ -39,12 +38,16 @@ class SubCatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sub_cat)
         setSupportActionBar(toolbar)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null)
+            toNextActivity(SigninActivity::class)
+
         catID = intent.getIntExtra(Intent.EXTRA_TEXT, 0)
 
         detailsRcv.layoutManager = LinearLayoutManager(this)
         detailsRcv.adapter = adapter
 
-        vm.getAllCategory().observe(this, Observer {
+        vm.getAllCategory(catID).observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
                 regularView()
                 adapter.submitList(it)
@@ -83,7 +86,7 @@ class SubCatActivity : AppCompatActivity() {
     private fun showDialog() {
 
         val view = LayoutInflater.from(this)
-            .inflate(R.layout.dialog_sub, detailsLay, false)
+                .inflate(R.layout.dialog_sub, detailsLay, false)
 
         val builder = AlertDialog.Builder(this)
         builder.setView(view)

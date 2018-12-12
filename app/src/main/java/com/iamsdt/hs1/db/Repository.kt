@@ -8,9 +8,9 @@ import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.db.table.SubCategoryTable
 
 class Repository(
-    private val myTableDao: MyTableDao,
-    private val subCategoryDao: SubCategoryDao,
-    private val categoryDao: CategoryDao
+        private val myTableDao: MyTableDao,
+        private val subCategoryDao: SubCategoryDao,
+        private val categoryDao: CategoryDao
 ) {
 
     val allData = myTableDao.getAllData()
@@ -45,6 +45,7 @@ class Repository(
     fun deleteSubCat(sub: SubCategoryTable) = subCategoryDao.add(sub)
 
     fun getAllSubcategory() = subCategoryDao.getAllData()
+    fun getSubListWithCatID(int: Int) = subCategoryDao.getIDCatSub(int)
 
     fun getSubcat(id: Int) = subCategoryDao.getSubCat(id)
 

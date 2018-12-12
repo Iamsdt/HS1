@@ -44,8 +44,10 @@ class SubVM(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getAllCategory(): LiveData<PagedList<SubCategoryTable>> {
-        val source = repository.getAllSubcategory()
+    fun getAllCategory(id: Int = 0): LiveData<PagedList<SubCategoryTable>> {
+
+        val source = if (id == 0) repository.getAllSubcategory()
+        else repository.getSubListWithCatID(id)
 
         return LivePagedListBuilder(source, MainVM.PAGE_CONFIG).build()
     }

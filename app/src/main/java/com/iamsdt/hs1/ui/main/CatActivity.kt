@@ -14,8 +14,11 @@ import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.*
+import com.iamsdt.hs1.ui.SigninActivity
 import com.iamsdt.hs1.ui.sub.SubCatActivity
 import kotlinx.android.synthetic.main.activity_cat.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -39,6 +42,9 @@ class CatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
         setContentView(R.layout.activity_cat)
         setSupportActionBar(main_toolbar)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null)
+            toNextActivity(SigninActivity::class)
 
         mainRcv.layoutManager = LinearLayoutManager(this)
 
