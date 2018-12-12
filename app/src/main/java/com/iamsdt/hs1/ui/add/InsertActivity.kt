@@ -8,15 +8,17 @@ package com.iamsdt.hs1.ui.add
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.esafirm.imagepicker.features.ImagePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.iamsdt.hs1.R
-import com.iamsdt.hs1.ext.ToastType
-import com.iamsdt.hs1.ext.showToast
+import com.iamsdt.hs1.ext.*
+import com.iamsdt.hs1.ui.SigninActivity
 import kotlinx.android.synthetic.main.activity_insert.*
 import kotlinx.android.synthetic.main.content_insert.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,21 +28,34 @@ class InsertActivity : AppCompatActivity() {
 
     private val vm: InsertVm by viewModel()
 
-    var imgLink = ""
+    private var imgLink = ""
 
-    var subId = 0
+    private var subId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insert)
         setSupportActionBar(toolbar)
 
-        subId = intent.getIntExtra(Intent.EXTRA_TEXT, 0)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null)
+            toNextActivity(SigninActivity::class)
+
+        subId = intent.getIntExtra(Intent.EXTRA_TEXT, 1)
 
         vm.status.observe(this, Observer {
             it?.let { m ->
                 if (m.status == 1) {
                     showToast(ToastType.SUCCESSFUL, m.title)
+
+                    //clear every thing
+                    //complete add empty image
+                    val img = getDrawable(R.drawable.ic_image_empty)
+                    pickImg.setImageDrawable(img)
+                    titleEt.editText?.text?.clear()
+                    typeEt.editText?.text?.clear()
+                    linkEt.editText?.text?.clear()
+
                 }
             }
         })
@@ -98,18 +113,31 @@ class InsertActivity : AppCompatActivity() {
             bit.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val byte = baos.toByteArray()
 
-            //todo show dialog
+            //complete show dialog
+            insertLay.show()
+            progressBar.show()
 
             val ref = FirebaseStorage.getInstance().getReference("pic")
             ref.putBytes(byte).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    val uri = it.result?.uploadSessionUri
+                    imgLink = it.result?.uploadSessionUri?.toString() ?: ""
+                    progressBar.gone()
+                    insertLay.gone()
+                }
+            }.addOnProgressListener {
+                val progress = 100.0 * it.bytesTransferred / it.totalByteCount
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    progressBar.setProgress(progress.toInt(), true)
+                } else {
+                    progressBar.progress = progress.toInt()
                 }
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 

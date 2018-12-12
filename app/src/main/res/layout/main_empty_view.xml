@@ -14,7 +14,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:srcCompat="@drawable/ic_document_empty"
+            app:srcCompat="@drawable/ic_inbox_mail_empty_tray"
             android:id="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
