@@ -29,4 +29,11 @@
     <string name="email_level">Email</string>
     <string name="pass_level">Password</string>
     <string name="app_icon">H</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="post">Post</string>
+    <string name="enter_title_here">Enter title here</string>
+    <string name="enter_description_here">Enter description here</string>
+    <string name="select_type">Select Type</string>
+    <string name="enter_the_link_here">Enter the link here</string>
+    <string name="pick_an_image">Pick an Image</string>
 </resources>

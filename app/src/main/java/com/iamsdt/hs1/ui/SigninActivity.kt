@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.*
-import com.iamsdt.hs1.ui.main.CatActivity
+import com.iamsdt.hs1.ui.main.MainActivity
 import kotlinx.android.synthetic.main.content_signin.*
 
 class SigninActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class SigninActivity : AppCompatActivity() {
 
         if (user != null) {
             showToast(ToastType.SUCCESSFUL, "SignIn automatically")
-            toNextActivity(CatActivity::class)
+            toNextActivity(MainActivity::class)
         } else {
             signIN(auth)
         }
@@ -49,7 +49,7 @@ class SigninActivity : AppCompatActivity() {
                                     showToast(ToastType.SUCCESSFUL, "Signin Successfully")
                                     loginProgress.gone()
                                     signinLay.gone()
-                                    toNextActivity(CatActivity::class)
+                                    toNextActivity(MainActivity::class)
                                 } else {
                                     loginProgress.gone()
                                     signinLay.gone()

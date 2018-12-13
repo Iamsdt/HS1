@@ -33,9 +33,13 @@
             android:label="@string/title_activity_insert"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.main.CatActivity"
+            android:name=".ui.cat.CatActivity"
             android:label="@string/title_activity_cat"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_list"/>
     </application>
 
 </manifest>

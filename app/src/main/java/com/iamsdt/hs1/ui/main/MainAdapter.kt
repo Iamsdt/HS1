@@ -1,44 +1,45 @@
-/*
- * Copyright (c) Shudipto Trafder
- * Created on 12/7/18 12:30 PM.
- */
-
 package com.iamsdt.hs1.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.VideoView
+import androidx.core.net.toUri
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.iamsdt.hs1.R
-import com.iamsdt.hs1.db.Repository
-import com.iamsdt.hs1.db.table.CategoryTable
+import com.iamsdt.hs1.db.table.MyTable
+import com.iamsdt.hs1.ext.gone
+import com.iamsdt.hs1.ext.show
 import com.iamsdt.hs1.ui.sub.SubCatActivity
-import com.iamsdt.hs1.utils.ioThread
-import kotlinx.android.synthetic.main.categorylist.view.*
+import com.iamsdt.hs1.utils.PostType
+import kotlinx.android.synthetic.main.main_card.view.*
 
 class MainAdapter(
-    private val repository: Repository,
-    private val context: Context
-) : PagedListAdapter<CategoryTable, MainAdapter.VH>(diffUtil) {
+        private val context: Context
+) : PagedListAdapter<MyTable, MainAdapter.VH>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.categorylist, parent, false)
+                .inflate(R.layout.main_card, parent, false)
 
         return VH(view)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        val model: CategoryTable? = getItem(position)
+        val model: MyTable? = getItem(position)
 
         model?.let {
             holder.bind(it)
@@ -53,38 +54,76 @@ class MainAdapter(
     }
 
 
-    inner class VH(view: View) : RecyclerView.ViewHolder(view) {
+    inner class VH(val view: View) : RecyclerView.ViewHolder(view) {
 
-        private val cat: TextView = view.catTV
-        private val num: TextView = view.numTV
+        private val titleTV: TextView = view.main_title
+        private val desTV: TextView = view.main_des
+        private val linkTV: TextView = view.main_link
+        private val catTV: TextView = view.main_cat
+        private val subTV: TextView = view.main_sub
 
-        fun bind(model: CategoryTable) {
+        private val video: VideoView = view.main_videoView
+        private val img: ImageView = view.main_img
+
+        fun bind(model: MyTable) {
             //bind with view
-            cat.text = model.cat
-            setTextCount(num, model.id)
+            titleTV.text = model.title
+            desTV.text = model.des
+            linkTV.text = model.link
+            val cat = "Category: ${model.category}"
+            val sub = "Subcategory: ${model.subCategory}"
+            catTV.text = cat
+            subTV.text = sub
+
+            when (model.type) {
+                PostType.IMAGE -> {
+                    video.gone()
+                    img.show()
+
+                    val ONE_MEGABYTE: Long = 1024 * 1024
+
+                    FirebaseStorage.getInstance()
+                            .getReferenceFromUrl(model.link).getBytes(ONE_MEGABYTE)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    val byte = it.result
+                                    val bit = BitmapFactory.decodeByteArray(byte, 0,
+                                            byte?.size ?: 0)
+                                    Glide.with(view).load(bit).into(img)
+                                } else {
+                                    // TODO: 12/13/18 add error image
+                                }
+                            }
+                }
+
+                PostType.LINK -> {
+                    img.gone()
+                    video.gone()
+                }
+
+                PostType.VIDEO -> {
+                    img.gone()
+                    video.show()
+                    video.setVideoPath(model.link)
+                }
+
+
+            }
+
         }
     }
 
     companion object {
 
-        val diffUtil = object : DiffUtil.ItemCallback<CategoryTable>() {
-            override fun areItemsTheSame(oldItem: CategoryTable, newItem: CategoryTable): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<MyTable>() {
+            override fun areItemsTheSame(oldItem: MyTable, newItem: MyTable): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: CategoryTable, newItem: CategoryTable): Boolean {
+            override fun areContentsTheSame(oldItem: MyTable, newItem: MyTable): Boolean {
                 return oldItem == newItem
             }
 
-        }
-    }
-
-    fun setTextCount(tv: TextView, id: Int) {
-        ioThread {
-            val li = repository.getCatCount(id)
-            Handler(Looper.getMainLooper()).post {
-                tv.text = (li.size).toString()
-            }
         }
     }
 }

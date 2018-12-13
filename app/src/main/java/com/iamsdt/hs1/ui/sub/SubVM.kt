@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.SubCategoryTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
-import com.iamsdt.hs1.ui.main.MainVM
+import com.iamsdt.hs1.ui.cat.MainVM
 import com.iamsdt.hs1.utils.SubcatDB
 import com.iamsdt.hs1.utils.ioThread
 import com.iamsdt.hs1.utils.model.EventMessage
