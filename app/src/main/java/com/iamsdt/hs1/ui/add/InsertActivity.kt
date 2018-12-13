@@ -8,14 +8,21 @@ package com.iamsdt.hs1.ui.add
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.esafirm.imagepicker.features.ImagePicker
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.*
 import com.iamsdt.hs1.ui.SigninActivity
@@ -23,6 +30,7 @@ import com.iamsdt.hs1.utils.PostType
 import kotlinx.android.synthetic.main.activity_insert.*
 import kotlinx.android.synthetic.main.content_insert.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 
 class InsertActivity : AppCompatActivity() {
@@ -33,9 +41,9 @@ class InsertActivity : AppCompatActivity() {
 
     private var subId = 0
 
-    private var type: PostType = PostType.LINK
-
     private var isPictureShowing = false
+
+    private var selected: PostType = PostType.LINK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +74,27 @@ class InsertActivity : AppCompatActivity() {
             }
         })
 
+
+        val list = listOf(
+                PostType.LINK, PostType.IMAGE, PostType.VIDEO
+        )
+
+        val spAdapter = ArrayAdapter(this,
+                android.R.layout.simple_list_item_1,
+                list)
+
+        spinner2.adapter = spAdapter
+        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selected = list[position]
+            }
+
+        }
+
         insertData()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -86,9 +115,14 @@ class InsertActivity : AppCompatActivity() {
         }
 
         addBtn.setOnClickListener {
-            if (isPictureShowing) {
+            isPictureShowing = if (isPictureShowing) {
                 addImgBtn.gone()
-            } else addBtn.show()
+                false
+            } else {
+                addImgBtn.show()
+                true
+
+            }
         }
 
         addImgBtn?.setOnClickListener {
@@ -106,7 +140,7 @@ class InsertActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            vm.add(title, des, type, link, imgLink, subId)
+            vm.add(title, des, selected, link, imgLink, subId)
 
         }
     }
@@ -130,11 +164,8 @@ class InsertActivity : AppCompatActivity() {
             progress_bar.show()
 
             val ref = FirebaseStorage.getInstance().getReference("pic")
-            ref.putBytes(byte).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    imgLink = it.result?.uploadSessionUri?.toString() ?: ""
-                }
-            }.addOnProgressListener {
+
+            ref.putBytes(byte).addOnProgressListener {
                 val progress = 100.0 * it.bytesTransferred / it.totalByteCount
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -142,7 +173,23 @@ class InsertActivity : AppCompatActivity() {
                 } else {
                     progress_bar.progress = progress.toInt()
                 }
+            }.continueWithTask(Continuation<UploadTask.TaskSnapshot,
+                    Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        Timber.e(it)
+                    }
+                }
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    imgLink = downloadUri?.toString() ?: ""
+                } else {
+                    Timber.i("Error")
+                }
             }
+
         }
 
         super.onActivityResult(requestCode, resultCode, data)

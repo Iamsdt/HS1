@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.dao.MyTableDao
 import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.utils.SubcatDB
+import com.iamsdt.hs1.utils.ioThread
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
@@ -28,15 +29,17 @@ class MainTable(context: Context, workerParameters: WorkerParameters) :
 
                 if (cat.isEmpty()) state = Result.RETRY
 
-                cat.filter { t -> t != null }
-                        .forEach { c ->
-                            val table: MyTable? = myTable.search(c.title)
-                            if (table == null) {
-                                myTable.add(c)
-                            } else {
-                                myTable.update(table)
+                ioThread {
+                    cat.filter { t -> t != null }
+                            .forEach { c ->
+                                val table: MyTable? = myTable.search(c.title)
+                                if (table == null) {
+                                    myTable.add(c)
+                                } else {
+                                    myTable.update(table)
+                                }
                             }
-                        }
+                }
 
             } else state = Result.RETRY
         }

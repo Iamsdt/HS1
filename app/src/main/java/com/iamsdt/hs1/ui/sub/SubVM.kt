@@ -25,11 +25,12 @@ class SubVM(private val repository: Repository) : ViewModel() {
 
     fun add(txt: String, catID: Int) {
 
-        val cat = SubCategoryTable(sub = txt, categoryID = catID)
+        val cat = SubCategoryTable(sub = txt, categoryID = catID, ref = txt)
 
-        val store = FirebaseFirestore.getInstance().collection(SubcatDB.NAME)
+        val store =
+                FirebaseFirestore.getInstance().collection(SubcatDB.NAME).document(cat.ref)
 
-        store.add(cat).addOnCompleteListener {
+        store.set(cat).addOnCompleteListener {
             if (it.isSuccessful) Timber.i("Sub category uploaded")
             else Timber.i("Sub category failed")
         }

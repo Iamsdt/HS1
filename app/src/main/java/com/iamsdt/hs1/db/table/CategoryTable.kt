@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class CategoryTable(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var cat: String = ""
+        @PrimaryKey(autoGenerate = true)
+        var id: Int = 0,
+        var cat: String = "",
+        var ref: String = ""
 )

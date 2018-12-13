@@ -26,12 +26,14 @@ class InsertVm(private val repository: Repository) : ViewModel() {
             val cat = repository.getCat(sub.categoryID)
 
             val table = MyTable(
-                    0, title, des, type, link, img, cat.cat, cat.id, sub.sub, subID
+                    0, title, des, type, link, img, cat.cat, cat.id, sub.sub, subID, title
             )
 
-            val ref = FirebaseFirestore.getInstance().collection(MainDB.NAME)
+            val ref =
+                    FirebaseFirestore.getInstance().collection(MainDB.NAME)
+                            .document(table.ref)
 
-            ref.add(table).addOnCompleteListener {
+            ref.set(table).addOnCompleteListener {
                 if (it.isSuccessful) Timber.i("Data insert uploaded")
                 else Timber.i("Data insert failed")
             }

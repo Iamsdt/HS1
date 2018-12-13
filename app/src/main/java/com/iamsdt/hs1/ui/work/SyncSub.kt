@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.dao.SubCategoryDao
 import com.iamsdt.hs1.db.table.SubCategoryTable
 import com.iamsdt.hs1.utils.SubcatDB
+import com.iamsdt.hs1.utils.ioThread
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
@@ -28,13 +29,15 @@ class SyncSub(context: Context, workerParameters: WorkerParameters) :
 
                 if (cat.isEmpty()) state = Result.RETRY
 
-                cat.filter { t -> t != null }
-                        .map { c ->
-                            val table: SubCategoryTable? = subcategoryDao.searchSub(c.sub)
-                            if (table == null) {
-                                subcategoryDao.add(c)
+                ioThread {
+                    cat.filter { t -> t != null }
+                            .map { c ->
+                                val table: SubCategoryTable? = subcategoryDao.searchSub(c.sub)
+                                if (table == null) {
+                                    subcategoryDao.add(c)
+                                }
                             }
-                        }
+                }
 
             } else state = Result.RETRY
         }

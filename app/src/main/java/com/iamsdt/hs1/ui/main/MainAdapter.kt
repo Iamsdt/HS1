@@ -68,48 +68,60 @@ class MainAdapter(
         fun bind(model: MyTable) {
             //bind with view
             titleTV.text = model.title
-            desTV.text = model.des
-            linkTV.text = model.link
+
+            if (model.des.isNotEmpty()) {
+                desTV.text = model.des
+            } else desTV.gone()
+
+            if (model.link.isNotEmpty()) {
+                linkTV.text = model.link
+            } else linkTV.gone()
+
             val cat = "Category: ${model.category}"
             val sub = "Subcategory: ${model.subCategory}"
             catTV.text = cat
             subTV.text = sub
 
-            when (model.type) {
-                PostType.IMAGE -> {
-                    video.gone()
-                    img.show()
 
-                    val ONE_MEGABYTE: Long = 1024 * 1024
+            if (model.img.isNotEmpty()) {
 
-                    FirebaseStorage.getInstance()
-                            .getReferenceFromUrl(model.link).getBytes(ONE_MEGABYTE)
-                            .addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    val byte = it.result
-                                    val bit = BitmapFactory.decodeByteArray(byte, 0,
-                                            byte?.size ?: 0)
-                                    Glide.with(view).load(bit).into(img)
-                                } else {
-                                    // TODO: 12/13/18 add error image
+                when (model.type) {
+
+                    PostType.IMAGE -> {
+                        video.gone()
+                        img.show()
+
+                        val ONE_MEGABYTE: Long = 1024 * 1024
+
+                        FirebaseStorage.getInstance()
+                                .getReferenceFromUrl(model.link).getBytes(ONE_MEGABYTE)
+                                .addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        val byte = it.result
+                                        val bit = BitmapFactory.decodeByteArray(byte, 0,
+                                                byte?.size ?: 0)
+                                        Glide.with(view).load(bit).into(img)
+                                    } else {
+                                        // TODO: 12/13/18 add error image
+                                    }
                                 }
-                            }
-                }
+                    }
 
-                PostType.LINK -> {
-                    img.gone()
-                    video.gone()
-                }
+                    PostType.LINK -> {
+                        img.gone()
+                        video.gone()
+                    }
 
-                PostType.VIDEO -> {
-                    img.gone()
-                    video.show()
-                    video.setVideoPath(model.link)
-                }
+                    PostType.VIDEO -> {
+                        img.gone()
+                        video.show()
+                        video.setVideoPath(model.link)
+                    }
 
+
+                }
 
             }
-
         }
     }
 

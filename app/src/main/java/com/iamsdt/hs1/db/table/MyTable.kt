@@ -7,14 +7,15 @@ import com.iamsdt.hs1.utils.PostType
 @Entity
 data class MyTable(
         @PrimaryKey(autoGenerate = true)
-        val id: Int,
-        val title: String,
-        val des: String,
-        val type: PostType,
-        val link: String,
-        val img: String,
-        val category: String,
-        val categoryID: Int,
-        val subCategory: String,
-        val subCategoryID: Int
+        var id: Int = 0,
+        var title: String = "",
+        var des: String = "",
+        var type: PostType = PostType.LINK,
+        var link: String = "",
+        var img: String = "",
+        var category: String = "",
+        var categoryID: Int = 0,
+        var subCategory: String = "",
+        var subCategoryID: Int = 0,
+        var ref: String = ""
 )

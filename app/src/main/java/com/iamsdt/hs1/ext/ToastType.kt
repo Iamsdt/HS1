@@ -18,7 +18,7 @@ enum class ToastType{
 }
 
 fun AppCompatActivity.showToast(
-        type: ToastType,
+        type: ToastType = ToastType.INFO,
         message: String,
         time:Int = Toast.LENGTH_SHORT,
         withIcon:Boolean = true){

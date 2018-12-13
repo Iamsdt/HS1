@@ -66,8 +66,9 @@ class SubCatActivity : AppCompatActivity() {
             }
         })
 
-        fab.setOnClickListener {
-            showDialog()
+        sub_img.setOnClickListener {
+            val txt = sub_et?.editText?.text?.toString() ?: ""
+            vm.add(txt, catID)
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -79,32 +80,6 @@ class SubCatActivity : AppCompatActivity() {
 
     private fun regularView() {
 
-    }
-
-    private fun showDialog() {
-
-        val view = LayoutInflater.from(this)
-                .inflate(R.layout.dialog_sub, detailsLay, false)
-
-        val builder = AlertDialog.Builder(this)
-        builder.setView(view)
-
-        val et = view.dialogEt
-        val bt = view.dialog_btn
-
-        bt.setOnClickListener {
-            val txt = et?.editText?.text?.toString() ?: ""
-
-            if (txt.isEmpty() || txt.length <= 3) {
-                et.error = "Please input correctly"
-            } else {
-                vm.add(txt, catID)
-            }
-        }
-
-        dialog = builder.create()
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

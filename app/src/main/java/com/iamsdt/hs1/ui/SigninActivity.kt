@@ -31,10 +31,19 @@ class SigninActivity : AppCompatActivity() {
         if (user != null) {
             showToast(ToastType.SUCCESSFUL, "SignIn automatically")
             toNextActivity(MainActivity::class)
+            fakeTest()
+
         } else {
             signIN(auth)
         }
 
+    }
+
+    private fun fakeTest() {
+        val main = OneTimeWorkRequest.Builder(
+                MainTable::class.java).build()
+
+        WorkManager.getInstance().enqueue(main)
     }
 
     private fun signIN(auth: FirebaseAuth) {

@@ -31,7 +31,7 @@ class CatVM(private val repository: Repository) : ViewModel() {
 
     fun add(txt: String) {
 
-        val cat = CategoryTable(cat = txt)
+        val cat = CategoryTable(cat = txt, ref = txt)
 
         val ref =
                 FirebaseFirestore.getInstance().collection(CatDB.NAME).document(txt)
