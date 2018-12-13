@@ -19,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.*
 import com.iamsdt.hs1.ui.SigninActivity
+import com.iamsdt.hs1.utils.PostType
 import kotlinx.android.synthetic.main.activity_insert.*
 import kotlinx.android.synthetic.main.content_insert.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +32,10 @@ class InsertActivity : AppCompatActivity() {
     private var imgLink = ""
 
     private var subId = 0
+
+    private var type: PostType = PostType.LINK
+
+    private var isPictureShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +55,11 @@ class InsertActivity : AppCompatActivity() {
 
                     //clear every thing
                     //complete add empty image
-                    val img = getDrawable(R.drawable.ic_image_empty)
-                    pickImg.setImageDrawable(img)
+                    val img = getDrawable(R.drawable.ic_add_img2)
+                    img_picker.setImageDrawable(img)
+
                     titleEt.editText?.text?.clear()
-                    typeEt.editText?.text?.clear()
+                    desEt.editText?.text?.clear()
                     linkEt.editText?.text?.clear()
 
                 }
@@ -68,20 +74,31 @@ class InsertActivity : AppCompatActivity() {
 
     private fun insertData() {
 
-        val img = pickImg
+        val img = img_picker
 
-        img.setOnClickListener {
+        img?.setOnClickListener {
             ImagePicker.create(this)
                     .single()
-                    .includeVideo(true)
+                    .includeVideo(false)
                     .showCamera(true)
                     .start()
 
         }
 
+        addBtn.setOnClickListener {
+            if (isPictureShowing) {
+                addImgBtn.gone()
+            } else addBtn.show()
+        }
+
+        addImgBtn?.setOnClickListener {
+            img_picker.show()
+            img_picker_tv.show()
+        }
+
         postBtn.setOnClickListener {
             val title = titleEt.editText?.text?.toString() ?: ""
-            val type = typeEt.editText?.text?.toString() ?: ""
+            val des = desEt.editText?.text?.toString() ?: ""
             val link = linkEt.editText?.text?.toString() ?: ""
 
             if (title.isEmpty() || title.length <= 3) {
@@ -89,12 +106,7 @@ class InsertActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (type.isEmpty() || type.length <= 3) {
-                typeEt.error = "Type is not valid"
-                return@setOnClickListener
-            }
-
-            vm.add(title, type, link, imgLink, subId)
+            vm.add(title, des, type, link, imgLink, subId)
 
         }
     }
@@ -107,30 +119,29 @@ class InsertActivity : AppCompatActivity() {
 
             val bit = BitmapFactory.decodeFile(selectImage.path)
 
-            pickImg.setImageBitmap(bit)
+            img_picker?.setImageBitmap(bit)
 
             val baos = ByteArrayOutputStream()
             bit.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val byte = baos.toByteArray()
 
             //complete show dialog
-            insertLay.show()
-            progressBar.show()
+
+            progress_bar.show()
 
             val ref = FirebaseStorage.getInstance().getReference("pic")
             ref.putBytes(byte).addOnCompleteListener {
                 if (it.isSuccessful) {
                     imgLink = it.result?.uploadSessionUri?.toString() ?: ""
-                    progressBar.gone()
-                    insertLay.gone()
+                    progress_bar.gone()
                 }
             }.addOnProgressListener {
                 val progress = 100.0 * it.bytesTransferred / it.totalByteCount
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    progressBar.setProgress(progress.toInt(), true)
+                    progress_bar.setProgress(progress.toInt(), true)
                 } else {
-                    progressBar.progress = progress.toInt()
+                    progress_bar.progress = progress.toInt()
                 }
             }
         }

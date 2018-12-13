@@ -11,6 +11,7 @@ import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
 import com.iamsdt.hs1.utils.MainDB
+import com.iamsdt.hs1.utils.PostType
 import com.iamsdt.hs1.utils.ioThread
 import com.iamsdt.hs1.utils.model.EventMessage
 import timber.log.Timber
@@ -19,13 +20,13 @@ class InsertVm(private val repository: Repository) : ViewModel() {
 
     val status = SingleLiveEvent<EventMessage>()
 
-    fun add(title: String, type: String, link: String = "", img: String = "", subID: Int) {
+    fun add(title: String, des: String, type: PostType, link: String = "", img: String = "", subID: Int) {
         ioThread {
             val sub = repository.getSubcat(subID)
             val cat = repository.getCat(sub.categoryID)
 
             val table = MyTable(
-                    0, title, type, link, img, cat.cat, cat.id, sub.sub, subID
+                    0, title, des, type, link, img, cat.cat, cat.id, sub.sub, subID
             )
 
             val ref = FirebaseFirestore.getInstance().collection(MainDB.NAME)
