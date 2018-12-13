@@ -74,13 +74,11 @@ class SubCatActivity : AppCompatActivity() {
     }
 
     private fun emptyView() {
-        empty.show()
-        regular.gone()
+
     }
 
     private fun regularView() {
-        empty.gone()
-        regular.show()
+
     }
 
     private fun showDialog() {

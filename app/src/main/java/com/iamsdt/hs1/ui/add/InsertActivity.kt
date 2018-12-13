@@ -61,7 +61,7 @@ class InsertActivity : AppCompatActivity() {
                     titleEt.editText?.text?.clear()
                     desEt.editText?.text?.clear()
                     linkEt.editText?.text?.clear()
-
+                    progress_bar.gone()
                 }
             }
         })
@@ -133,7 +133,6 @@ class InsertActivity : AppCompatActivity() {
             ref.putBytes(byte).addOnCompleteListener {
                 if (it.isSuccessful) {
                     imgLink = it.result?.uploadSessionUri?.toString() ?: ""
-                    progress_bar.gone()
                 }
             }.addOnProgressListener {
                 val progress = 100.0 * it.bytesTransferred / it.totalByteCount

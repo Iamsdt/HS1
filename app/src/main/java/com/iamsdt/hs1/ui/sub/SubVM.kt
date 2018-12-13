@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.SubCategoryTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
-import com.iamsdt.hs1.ui.cat.MainVM
+import com.iamsdt.hs1.ui.cat.CatVM
 import com.iamsdt.hs1.utils.SubcatDB
 import com.iamsdt.hs1.utils.ioThread
 import com.iamsdt.hs1.utils.model.EventMessage
@@ -49,6 +49,6 @@ class SubVM(private val repository: Repository) : ViewModel() {
         val source = if (id == 0) repository.getAllSubcategory()
         else repository.getSubListWithCatID(id)
 
-        return LivePagedListBuilder(source, MainVM.PAGE_CONFIG).build()
+        return LivePagedListBuilder(source, CatVM.PAGE_CONFIG).build()
     }
 }

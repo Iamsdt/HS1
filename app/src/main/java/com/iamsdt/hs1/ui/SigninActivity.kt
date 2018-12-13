@@ -7,10 +7,15 @@ package com.iamsdt.hs1.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.*
 import com.iamsdt.hs1.ui.main.MainActivity
+import com.iamsdt.hs1.ui.work.MainTable
+import com.iamsdt.hs1.ui.work.SyncCat
+import com.iamsdt.hs1.ui.work.SyncSub
 import kotlinx.android.synthetic.main.content_signin.*
 
 class SigninActivity : AppCompatActivity() {
@@ -50,6 +55,9 @@ class SigninActivity : AppCompatActivity() {
                                     loginProgress.gone()
                                     signinLay.gone()
                                     toNextActivity(MainActivity::class)
+
+                                    // complete: 12/13/18 sync with server
+                                    startWorker()
                                 } else {
                                     loginProgress.gone()
                                     signinLay.gone()
@@ -67,5 +75,19 @@ class SigninActivity : AppCompatActivity() {
                 email_lay.error = "Password is empty"
             }
         }
+    }
+
+    private fun startWorker() {
+        val cat = OneTimeWorkRequest.Builder(
+                SyncCat::class.java).build()
+
+        val sub = OneTimeWorkRequest.Builder(
+                SyncSub::class.java).build()
+
+
+        val main = OneTimeWorkRequest.Builder(
+                MainTable::class.java).build()
+
+        WorkManager.getInstance().enqueue(listOf(cat, sub, main))
     }
 }

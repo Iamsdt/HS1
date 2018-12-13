@@ -48,4 +48,7 @@ interface MyTableDao {
 
     @Query("Select id From MyTable where subCategoryID = :id")
     fun getSubcatIDs(id: Int): List<Int>
+
+    @Query("Select * From MyTable where title = :str")
+    fun search(str: String): MyTable
 }

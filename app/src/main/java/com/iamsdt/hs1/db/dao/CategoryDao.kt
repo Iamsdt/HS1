@@ -8,7 +8,7 @@ import com.iamsdt.hs1.db.table.CategoryTable
 @Dao
 interface CategoryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(myTable: CategoryTable): Long
 
     @Update
@@ -28,4 +28,7 @@ interface CategoryDao {
 
     @Query("Select * From CategoryTable where id = :id")
     fun getCat(id: Int): CategoryTable
+
+    @Query("Select * From CategoryTable where cat = :str")
+    fun searchCat(str: String): CategoryTable
 }
