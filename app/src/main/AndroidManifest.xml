@@ -38,8 +38,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_list"/>
+            android:label="@string/title_activity_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.edit.EditActivity"
+            android:label="@string/title_activity_edit"></activity>
     </application>
 
 </manifest>

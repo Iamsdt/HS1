@@ -35,4 +35,8 @@
     <string name="select_type">Select Type</string>
     <string name="enter_the_link_here">Enter the link here</string>
     <string name="pick_an_image">Pick an Image</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="update">Update</string>
+    <string name="action_delete">Delete</string>
 </resources>

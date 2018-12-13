@@ -32,22 +32,24 @@ class Repository(
 
 
     fun addCat(cat: CategoryTable) = categoryDao.add(cat)
-    fun updateCat(cat: CategoryTable) = categoryDao.add(cat)
-    fun deleteCat(cat: CategoryTable) = categoryDao.add(cat)
+    fun updateCat(cat: CategoryTable) = categoryDao.update(cat)
+    fun deleteCat(cat: CategoryTable) = categoryDao.delete(cat)
 
     fun getAllCategory() = categoryDao.getAllData()
 
     fun getCat(id: Int) = categoryDao.getCat(id)
+    fun getCategory(id: Int) = categoryDao.getCategory(id)
 
 
     fun addSubCat(sub: SubCategoryTable) = subCategoryDao.add(sub)
-    fun updateSubCat(sub: SubCategoryTable) = subCategoryDao.add(sub)
-    fun deleteSubCat(sub: SubCategoryTable) = subCategoryDao.add(sub)
+    fun updateSubCat(sub: SubCategoryTable) = subCategoryDao.update(sub)
+    fun deleteSubCat(sub: SubCategoryTable) = subCategoryDao.delete(sub)
 
     fun getAllSubcategory() = subCategoryDao.getAllData()
     fun getSubListWithCatID(int: Int) = subCategoryDao.getIDCatSub(int)
 
     fun getSubcat(id: Int) = subCategoryDao.getSubCat(id)
+    fun getSubcategory(id: Int) = subCategoryDao.getSubcategory(id)
 
 
 }

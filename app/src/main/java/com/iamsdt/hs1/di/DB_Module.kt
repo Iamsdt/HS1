@@ -9,6 +9,7 @@ import com.iamsdt.hs1.db.dao.SubCategoryDao
 import com.iamsdt.hs1.ui.add.InsertVm
 import com.iamsdt.hs1.ui.cat.CatAdapter
 import com.iamsdt.hs1.ui.cat.CatVM
+import com.iamsdt.hs1.ui.edit.EditVM
 import com.iamsdt.hs1.ui.main.MainVM
 import com.iamsdt.hs1.ui.sub.SubAdapter
 import com.iamsdt.hs1.ui.sub.SubVM
@@ -57,4 +58,5 @@ val vm = module {
     viewModel { SubVM(get()) }
     viewModel { InsertVm(get()) }
     viewModel { MainVM(get()) }
+    viewModel { EditVM(get()) }
 }

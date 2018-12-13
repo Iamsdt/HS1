@@ -19,19 +19,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.CategoryTable
+import com.iamsdt.hs1.ui.edit.EditActivity
 import com.iamsdt.hs1.ui.sub.SubCatActivity
 import com.iamsdt.hs1.utils.ioThread
 import kotlinx.android.synthetic.main.categorylist.view.*
 
 class CatAdapter(
-    private val repository: Repository,
-    private val context: Context
+        private val repository: Repository,
+        private val context: Context
 ) : PagedListAdapter<CategoryTable, CatAdapter.VH>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.categorylist, parent, false)
+                .inflate(R.layout.categorylist, parent, false)
 
         return VH(view)
     }
@@ -48,10 +49,16 @@ class CatAdapter(
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
+
+            holder.itemView.setOnLongClickListener {
+                val intent = Intent(context, EditActivity::class.java)
+                intent.putExtra(Intent.EXTRA_TEXT, "Cat:${model.id}")
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+                return@setOnLongClickListener true
+            }
         }
-
     }
-
 
     inner class VH(view: View) : RecyclerView.ViewHolder(view) {
 

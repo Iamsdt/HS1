@@ -33,9 +33,10 @@ class CatVM(private val repository: Repository) : ViewModel() {
 
         val cat = CategoryTable(cat = txt)
 
-        val ref = FirebaseFirestore.getInstance().collection(CatDB.NAME)
+        val ref =
+                FirebaseFirestore.getInstance().collection(CatDB.NAME).document(txt)
 
-        ref.add(cat).addOnCompleteListener {
+        ref.set(cat).addOnCompleteListener {
             if (it.isSuccessful) Timber.i("category uploaded")
             else Timber.i("category failed")
         }
