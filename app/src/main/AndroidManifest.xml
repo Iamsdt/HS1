@@ -17,7 +17,7 @@
         <activity
             android:name=".ui.SigninActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

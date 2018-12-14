@@ -2,12 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- //todo add delete icon -->
+    <!-- //complete add delete icon -->
 
     <item
         android:id="@+id/action_delete"
         android:orderInCategory="100"
         android:title="@string/action_delete"
+        android:icon="@drawable/ic_rubbish_bin"
         app:showAsAction="always" />
 
 </menu>

@@ -68,6 +68,8 @@ class EditActivity : AppCompatActivity() {
             vm.update(model)
         }
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

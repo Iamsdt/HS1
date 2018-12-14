@@ -9,7 +9,7 @@
     <color name="c2">@color/purple_800</color>
     <color name="login_dark">@color/orange_700</color>
 
-    <color name="log_text">#ddd6e6</color>
+    <color name="log_text">#ffffff</color>
     <color name="log_text_name">#a68aca</color>
     <color name="log_btn">#350d66</color>
 
