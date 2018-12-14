@@ -51,4 +51,8 @@ interface MyTableDao {
 
     @Query("Select * From MyTable where title = :str")
     fun search(str: String): MyTable
+
+
+    @Query("Select * From MyTable where id = :id")
+    fun getDetails(id: Int):LiveData<MyTable>
 }

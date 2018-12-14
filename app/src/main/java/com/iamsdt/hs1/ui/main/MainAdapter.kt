@@ -21,6 +21,7 @@ import com.iamsdt.hs1.R
 import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.ext.gone
 import com.iamsdt.hs1.ext.show
+import com.iamsdt.hs1.ui.details.DetailsActivity
 import com.iamsdt.hs1.ui.sub.SubCatActivity
 import com.iamsdt.hs1.utils.PostType
 import kotlinx.android.synthetic.main.main_card.view.*
@@ -44,11 +45,12 @@ class MainAdapter(
         model?.let {
             holder.bind(it)
             holder.itemView.setOnClickListener {
-                val intent = Intent(context, SubCatActivity::class.java)
+                val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra(Intent.EXTRA_TEXT, model.id)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
+
         }
 
     }
@@ -91,20 +93,7 @@ class MainAdapter(
                         video.gone()
                         img.show()
 
-                        val ONE_MEGABYTE: Long = 1024 * 1024
-
-                        FirebaseStorage.getInstance()
-                                .getReferenceFromUrl(model.link).getBytes(ONE_MEGABYTE)
-                                .addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        val byte = it.result
-                                        val bit = BitmapFactory.decodeByteArray(byte, 0,
-                                                byte?.size ?: 0)
-                                        Glide.with(view).load(bit).into(img)
-                                    } else {
-                                        // TODO: 12/13/18 add error image
-                                    }
-                                }
+                        Glide.with(view).load(model.img).into(img)
                     }
 
                     PostType.LINK -> {

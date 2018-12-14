@@ -9,6 +9,7 @@ import com.iamsdt.hs1.db.dao.SubCategoryDao
 import com.iamsdt.hs1.ui.add.InsertVm
 import com.iamsdt.hs1.ui.cat.CatAdapter
 import com.iamsdt.hs1.ui.cat.CatVM
+import com.iamsdt.hs1.ui.details.DetailsVM
 import com.iamsdt.hs1.ui.edit.EditVM
 import com.iamsdt.hs1.ui.main.MainVM
 import com.iamsdt.hs1.ui.sub.SubAdapter
@@ -25,20 +26,20 @@ val dbModule = module {
 
     single {
         Room.databaseBuilder(
-            androidContext(),
-            MyDatabase::class.java, "MyDatabase"
+                androidContext(),
+                MyDatabase::class.java, "MyDatabase"
         )
-            .enableMultiInstanceInvalidation()
-            .build()
+                .enableMultiInstanceInvalidation()
+                .build()
     }
 }
 
 val repoModule = module {
     single {
         Repository(
-            get() as MyTableDao,
-            get() as SubCategoryDao,
-            get() as CategoryDao
+                get() as MyTableDao,
+                get() as SubCategoryDao,
+                get() as CategoryDao
         )
     }
 }
@@ -59,4 +60,5 @@ val vm = module {
     viewModel { InsertVm(get()) }
     viewModel { MainVM(get()) }
     viewModel { EditVM(get()) }
+    viewModel { DetailsVM(get()) }
 }

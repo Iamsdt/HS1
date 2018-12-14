@@ -34,7 +34,9 @@ class MainTable(context: Context, workerParameters: WorkerParameters) :
                             .forEach { c ->
                                 val table: MyTable? = myTable.search(c.title)
                                 if (table == null) {
-                                    myTable.add(c)
+                                    if (c?.title?.isNotEmpty() == true) {
+                                        myTable.add(c)
+                                    }
                                 } else {
                                     myTable.update(table)
                                 }

@@ -29,8 +29,6 @@ class SubCatActivity : AppCompatActivity() {
 
     private val adapter: SubAdapter by inject()
 
-    private lateinit var dialog: AlertDialog
-
     private var catID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +58,7 @@ class SubCatActivity : AppCompatActivity() {
         vm.dialogStatus.observe(this, Observer {
             it?.let { model ->
                 if (model.status == 1) {
-                    if (::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+                    sub_et?.editText?.text?.clear()
                     showToast(ToastType.SUCCESSFUL, model.title)
                 }
             }
@@ -68,7 +66,9 @@ class SubCatActivity : AppCompatActivity() {
 
         sub_img.setOnClickListener {
             val txt = sub_et?.editText?.text?.toString() ?: ""
-            vm.add(txt, catID)
+            if (txt.isNotEmpty()) {
+                vm.add(txt, catID)
+            } else sub_et?.error = "Text is empty"
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -23,6 +23,8 @@ class Repository(
 
     fun getCategorySubData(cat: String, sub: String) = myTableDao.getCategorySubCategory(cat, sub)
 
+    fun getDetails(id: Int) = myTableDao.getDetails(id)
+
     fun addMyTable(myTable: MyTable) = myTableDao.add(myTable)
     fun updateMyTable(myTable: MyTable) = myTableDao.update(myTable)
     fun deleteMyTable(myTable: MyTable) = myTableDao.delete(myTable)
