@@ -47,7 +47,7 @@
 
         <activity
             android:name=".ui.details.DetailsActivity"
-            android:label="@string/title_activity_edit"
+            android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

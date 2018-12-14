@@ -30,20 +30,12 @@ class SigninActivity : AppCompatActivity() {
 
         if (user != null) {
             showToast(ToastType.SUCCESSFUL, "SignIn automatically")
-            toNextActivity(MainActivity::class)
-            fakeTest()
+            toNextActivity(MainActivity::class, finish = true)
 
         } else {
             signIN(auth)
         }
 
-    }
-
-    private fun fakeTest() {
-        val main = OneTimeWorkRequest.Builder(
-                MainTable::class.java).build()
-
-        WorkManager.getInstance().enqueue(main)
     }
 
     private fun signIN(auth: FirebaseAuth) {
@@ -63,7 +55,7 @@ class SigninActivity : AppCompatActivity() {
                                     showToast(ToastType.SUCCESSFUL, "Signin Successfully")
                                     loginProgress.gone()
                                     signinLay.gone()
-                                    toNextActivity(MainActivity::class)
+                                    toNextActivity(MainActivity::class, finish = true)
 
                                     // complete: 12/13/18 sync with server
                                     startWorker()

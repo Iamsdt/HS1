@@ -7,9 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.iamsdt.hs1.R
-import com.iamsdt.hs1.ext.ToastType
-import com.iamsdt.hs1.ext.showToast
-import com.iamsdt.hs1.ext.toNextActivity
+import com.iamsdt.hs1.ext.*
 import com.iamsdt.hs1.ui.SigninActivity
 import kotlinx.android.synthetic.main.activity_cat.*
 import kotlinx.android.synthetic.main.content_cat.*
@@ -39,9 +37,11 @@ class CatActivity : AppCompatActivity() {
 
         vm.getAllCategory().observe(this, Observer {
             if (it != null && it.isNotEmpty()) {
+                regularView()
                 adapter.submitList(it)
             } else {
-                //// TODO: 12/13/18 add empty view
+                // complete: 12/13/18 add empty view
+                emptyView()
             }
         })
 
@@ -59,6 +59,16 @@ class CatActivity : AppCompatActivity() {
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun regularView() {
+        emptyView.gone()
+        catRCV.show()
+    }
+
+    fun emptyView() {
+        emptyView.show()
+        catRCV.gone()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

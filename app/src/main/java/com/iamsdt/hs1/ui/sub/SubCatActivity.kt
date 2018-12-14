@@ -75,11 +75,13 @@ class SubCatActivity : AppCompatActivity() {
     }
 
     private fun emptyView() {
-
+        emptyView_sub.show()
+        detailsRcv.gone()
     }
 
     private fun regularView() {
-
+        emptyView_sub.gone()
+        detailsRcv.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

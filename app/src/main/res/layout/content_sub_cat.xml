@@ -56,4 +56,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_right_arrow_circular_button" />
 
+    <LinearLayout
+        android:id="@+id/emptyView_sub"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/grey_1000"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sub_et"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_catnumbered_list" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/no_category_found_sub"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/grey_900"
+            android:textSize="28sp" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
