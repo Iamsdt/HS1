@@ -32,8 +32,4 @@ class MyApp : Application() {
         startKoin(this, listOf(dbModule, repoModule, vm, adapterMOdule))
     }
 
-    /*
-    registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
-     */
-
 }

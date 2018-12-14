@@ -48,6 +48,13 @@
         <activity
             android:name=".ui.details.DetailsActivity"
             android:label="@string/title_activity_details"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.AppAbout"
+            android:label="App About"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

@@ -24,11 +24,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ef_image_placeholder" />
 
-        <VideoView
+        <com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView
             android:id="@+id/details_videoView"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:visibility="gone"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

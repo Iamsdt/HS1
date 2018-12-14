@@ -18,6 +18,7 @@ import com.iamsdt.hs1.R
 import com.iamsdt.hs1.ext.gone
 import com.iamsdt.hs1.ext.show
 import com.iamsdt.hs1.ext.toNextActivity
+import com.iamsdt.hs1.ui.AppAbout
 import com.iamsdt.hs1.ui.SigninActivity
 import com.iamsdt.hs1.ui.cat.CatActivity
 import com.iamsdt.hs1.ui.sub.SubCatActivity
@@ -102,6 +103,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_subcat -> toNextActivity(SubCatActivity::class)
+            R.id.nav_cat -> toNextActivity(CatActivity::class)
+            R.id.nav_about -> toNextActivity(AppAbout::class)
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
