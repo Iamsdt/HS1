@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.iamsdt.hs1.db.Repository
 import com.iamsdt.hs1.db.table.CategoryTable
+import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.db.table.SubCategoryTable
 import com.iamsdt.hs1.ext.SingleLiveEvent
-import com.iamsdt.hs1.utils.CatDB
-import com.iamsdt.hs1.utils.SubcatDB
-import com.iamsdt.hs1.utils.ioThread
+import com.iamsdt.hs1.utils.*
 import com.iamsdt.hs1.utils.model.EventMessage
+import timber.log.Timber
 
 class EditVM(private val repo: Repository) : ViewModel() {
 
@@ -76,5 +76,42 @@ class EditVM(private val repo: Repository) : ViewModel() {
             }
         }
     }
+
+    fun add(title: String, des: String, type: PostType, link: String = "", img: String = "", model: MyTable) {
+        ioThread {
+
+            val table = model.copy(title = title, des = des, type = type, link = link, img = img)
+
+            val ref =
+                    FirebaseFirestore.getInstance().collection(MainDB.NAME)
+                            .document(table.ref)
+
+            val map = mapOf(
+                    Pair("id", table.id),
+                    Pair("title", table.title),
+                    Pair("des", table.des),
+                    Pair("type", "${table.type}"),
+                    Pair("link", table.link),
+                    Pair("img", table.img),
+                    Pair("category", table.category),
+                    Pair("categoryID", table.categoryID),
+                    Pair("subCategory", table.subCategory),
+                    Pair("subCategoryID", table.subCategoryID),
+                    Pair("ref", table.ref)
+            )
+
+            ref.update(map).addOnCompleteListener {
+                if (it.isSuccessful) Timber.i("Data insert uploaded")
+                else Timber.i("Data insert failed")
+            }
+
+            val insert = repo.updateMyTable(table)
+            if (insert > 0) {
+                status.postValue(EventMessage("Updated Successfully", 1))
+            }
+        }
+    }
+
+    fun getMyTable(id: Int) = repo.getDetails(id)
 
 }

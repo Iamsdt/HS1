@@ -4,8 +4,8 @@
     package="com.iamsdt.hs1">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MyApp"
@@ -41,7 +41,20 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/title_activity_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- to identify this activity as "searchable" -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+        </activity>
         <activity
             android:name=".ui.edit.EditActivity"
             android:label="@string/title_activity_edit"
@@ -49,8 +62,8 @@
 
         <activity
             android:name=".ui.details.DetailsActivity"
-            android:label="@string/title_activity_details"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -58,6 +71,17 @@
             android:name=".ui.AppAbout"
             android:label="App About"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.edit.EditPostActivity"
+            android:label="Edit Post"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".ui.search.MySuggestionProvider"
+            android:authorities="com.iamsdt.hs1.MySuggestionProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>

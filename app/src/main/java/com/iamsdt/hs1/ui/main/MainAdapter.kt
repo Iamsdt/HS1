@@ -2,27 +2,22 @@ package com.iamsdt.hs1.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
-import androidx.core.net.toUri
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.iamsdt.hs1.R
 import com.iamsdt.hs1.db.table.MyTable
 import com.iamsdt.hs1.ext.gone
 import com.iamsdt.hs1.ext.show
 import com.iamsdt.hs1.ui.details.DetailsActivity
-import com.iamsdt.hs1.ui.sub.SubCatActivity
+import com.iamsdt.hs1.ui.edit.EditPostActivity
 import com.iamsdt.hs1.utils.PostType
 import kotlinx.android.synthetic.main.main_card.view.*
 
@@ -49,6 +44,14 @@ class MainAdapter(
                 intent.putExtra(Intent.EXTRA_TEXT, model.id)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
+            }
+
+            holder.itemView.setOnLongClickListener {
+                val intent = Intent(context, EditPostActivity::class.java)
+                intent.putExtra(Intent.EXTRA_TEXT, model.id)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+                return@setOnLongClickListener true
             }
 
         }

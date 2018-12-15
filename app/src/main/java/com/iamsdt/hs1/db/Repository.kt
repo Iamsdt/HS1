@@ -17,6 +17,8 @@ class Repository(
 
     fun getTypeData(string: String) = myTableDao.getType(string)
 
+    fun getSearchList(str:String) = myTableDao.searchList(str)
+
     fun getCategoryData(string: String) = myTableDao.getCategory(string)
 
     fun getSubCategoryData(string: String) = myTableDao.getSubCategory(string)

@@ -25,6 +25,9 @@ interface MyTableDao {
     @Query("Select * From MyTable where category = :cat")
     fun getCategory(cat: String): DataSource.Factory<Int, MyTable>
 
+    @Query("Select * From MyTable where title like :str||'%'")
+    fun searchList(str: String): DataSource.Factory<Int, MyTable>
+
     @Query("Select * From MyTable where subCategory = :cat")
     fun getSubCategory(cat: String): DataSource.Factory<Int, MyTable>
 
@@ -54,5 +57,5 @@ interface MyTableDao {
 
 
     @Query("Select * From MyTable where id = :id")
-    fun getDetails(id: Int):LiveData<MyTable>
+    fun getDetails(id: Int): LiveData<MyTable>
 }
